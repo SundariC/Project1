@@ -1,23 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { saveIncome } from "../utils/localStorageUtils";
 
-export default function IncomeForm({ onAdd }) {
+export default function IncomeForm({ onAdd, editingItem, onUpdate }) {
   const [amount, setAmount] = useState("");
   const [source, setSource] = useState("Salary");
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
 
+  useEffect(() => {
+    if (editingItem) {
+      setAmount(editingItem.amount);
+      setSource(editingItem.source);
+      setDate(editingItem.date);
+      setNote(editingItem.note);
+    }
+  }, [editingItem]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const income = {
-      id: Date.now(),
+      id: editingItem ? editingItem.id : Date.now(), 
       amount: parseFloat(amount),
       source,
       date,
       note,
     };
-    saveIncome(income);
-    onAdd(income);
+
+    if (editingItem) {
+      onUpdate(income); 
+      saveIncome(income); 
+    } else {
+      saveIncome(income); 
+      onAdd(income);      
+    }
+
+    // Reset form
     setAmount("");
     setSource("Salary");
     setDate("");
@@ -75,7 +93,7 @@ export default function IncomeForm({ onAdd }) {
         type="submit"
         className="bg-green-600 shadow-md shadow-green-900 text-white px-4 py-2 rounded w-full"
       >
-        Add Income
+        {editingItem ? "Update Income" : "Add Income"} {/* ⭐ Button text changes */}
       </button>
     </form>
   );

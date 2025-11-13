@@ -7,11 +7,17 @@ import Alert from "../components/Alert";
 export default function IncomePage() {
   const [income, setIncome] = useState([]);
   const [alert, setAlert] = useState(null);
+  const [editingItem, setEditingItem] = useState(null);
   
 
   useEffect(() => {
     setIncome(getIncome());
   }, []);
+
+  const handleUpdate = (updated) => {
+  setIncome(income.map((e) => (e.id === updated.id ? updated : e)));
+  setEditingItem(null); 
+};
 
   const handleAdd = (inc) => { 
     setIncome([...income, inc]);
@@ -30,8 +36,8 @@ export default function IncomePage() {
       {alert && 
       <div className="absolute top-20 left-1/2 transform -translate-x-1/2 w-1/3">
       <Alert type={alert.type} message={alert.message} /></div>}
-      <IncomeForm onAdd={handleAdd} />
-      <ExpenseList data={income} onDelete={handleDelete} />
+      <IncomeForm onAdd={handleAdd} editingItem={editingItem} onUpdate={handleUpdate} />
+      <ExpenseList data={income} onDelete={handleDelete} onEdit={(item) => setEditingItem(item)} />
     </div>
   );
 }

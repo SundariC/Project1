@@ -1,23 +1,41 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { saveExpense } from "../utils/localStorageUtils";
 
-export default function ExpenseForm({ onAdd }) {
+export default function ExpenseForm({ onAdd, editingItem, onUpdate }) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("Food");
   const [date, setDate] = useState("");
   const [note, setNote] = useState("");
 
+
+  useEffect(() => {
+    if (editingItem) {
+      setAmount(editingItem.amount);
+      setCategory(editingItem.category);
+      setDate(editingItem.date);
+      setNote(editingItem.note);
+    }
+  }, [editingItem]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
     const expense = {
-      id: Date.now(),
+      id: editingItem ? editingItem.id : Date.now(), 
       amount: parseFloat(amount),
       category,
       date,
       note,
     };
-    saveExpense(expense);
-    onAdd(expense);
+
+    if (editingItem) {
+      onUpdate(expense); 
+    } else {
+      saveExpense(expense); 
+      onAdd(expense);       
+    }
+
+    // Reset form
     setAmount("");
     setCategory("Food");
     setDate("");
@@ -76,7 +94,7 @@ export default function ExpenseForm({ onAdd }) {
         type="submit"
         className="bg-orange-600 shadow-md shadow-orange-900 text-white px-4 py-2 rounded w-full"
       >
-        Add Expense
+        {editingItem ? "Update Expense" : "Add Expense"} {/* ⭐ Change button text */}
       </button>
     </form>
   );
