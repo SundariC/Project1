@@ -1,17 +1,16 @@
-import { Link } from "react-router-dom";
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Navbar = () => {
-  return (
-    <nav className="bg-gray-900 text-white px-6 py-3 flex justify-between items-center">
-      <h1 className="text-2xl font-bold">💰 Finance Tracker</h1>
-      <ul className="flex gap-6">
-        <li><Link to="/" className="hover:text-yellow-400">Dashboard</Link></li>
-        <li><Link to="/income" className="hover:text-yellow-400">Income</Link></li>
-        <li><Link to="/expense" className="hover:text-yellow-400">Expense</Link></li>
-        <li><Link to="/chart" className="hover:text-yellow-400">Chart</Link></li>
-      </ul>
-    </nav>
-  );
-};
 
-export default Navbar;
+export default function Navbar() {
+return (
+<nav className="bg-blue-600 text-white p-4 shadow-md">
+<ul className="flex gap-6 justify-center">
+<li><Link to="/">Dashboard</Link></li>
+<li><Link to="/income">Income</Link></li>
+<li><Link to="/expenses">Expense</Link></li>
+<li><Link to="/charts">Charts</Link></li>
+</ul>
+</nav>
+);
+}
