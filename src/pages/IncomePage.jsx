@@ -1,25 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import IncomeForm from '../components/IncomeForm';
-import ExpenseList from '../components/ExpenseList';
-import { getIncome, deleteIncome } from '../utils/localStorageUtils';
-
+import React, { useState, useEffect } from "react";
+import IncomeForm from "../components/IncomeForm";
+import ExpenseList from "../components/ExpenseList";
+import { getIncome, deleteIncome } from "../utils/localStorageUtils";
+import Alert from "../components/Alert";
 
 export default function IncomePage() {
-const [income, setIncome] = useState([]);
-useEffect(()=>{ setIncome(getIncome()); }, []);
+  const [income, setIncome] = useState([]);
+  const [alert, setAlert] = useState(null);
+  
 
+  useEffect(() => {
+    setIncome(getIncome());
+  }, []);
 
-const handleAdd = (inc) => setIncome([...income, inc]);
-const handleDelete = (id) => {
-deleteIncome(id);
-setIncome(income.filter(e=>e.id!==id));
-};
+  const handleAdd = (inc) => { 
+    setIncome([...income, inc]);
+    setAlert({ type: "success", message: "Income added successfully!" });
+    setTimeout(() => setAlert(null), 2000);
+  };
+  const handleDelete = (id) => {
+    deleteIncome(id);
+    setIncome(income.filter((e) => e.id !== id));
+    setAlert({ type: "error", message: "Income deleted." });
+    setTimeout(() => setAlert(null), 2000);
+  };
 
-
-return (
-<div className="max-w-xl mx-auto">
-<IncomeForm onAdd={handleAdd} />
-<ExpenseList data={income} onDelete={handleDelete} />
-</div>
-);
+  return (
+    <div className="flex justify-between gap-4 max-w-5xl mx-auto bg-green-300 p-6 rounded-lg shadow-md shadow-green-600">
+      {alert && 
+      <div className="absolute top-20 left-1/2 transform -translate-x-1/2 w-1/3">
+      <Alert type={alert.type} message={alert.message} /></div>}
+      <IncomeForm onAdd={handleAdd} />
+      <ExpenseList data={income} onDelete={handleDelete} />
+    </div>
+  );
 }
+
