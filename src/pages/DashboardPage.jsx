@@ -30,10 +30,10 @@ export default function DashboardPage() {
         <p className="text-2xl font-bold text-blue-700">₹{balance}</p>
       </div>
       <div className="md:col-span-3 flex justify-center mt-6">
-        <button className="border text-white px-4 py-2 rounded shadow-lg shadow-orange-500 hover:bg-orange-200 hover:text-black">
+        <button className="border text-orange-700 font-bold px-4 py-2 rounded shadow-lg shadow-orange-500 hover:bg-orange-200 hover:text-black">
           <Link to="/expenses">Add your Expenses</Link>
         </button>
-        <button className="border text-white px-4 py-2 rounded ml-4 shadow-lg shadow-green-500 hover:bg-green-200 hover:text-black">
+        <button className="border text-green-700 font-bold px-4 py-2 rounded ml-4 shadow-lg shadow-green-500 hover:bg-green-200 hover:text-black">
           <Link to="/income">Add your Income</Link>
         </button>
         
