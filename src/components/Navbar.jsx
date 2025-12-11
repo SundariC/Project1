@@ -10,7 +10,7 @@ export default function Navbar() {
             to="/"
             className=" p-2 rounded-lg shadow-lg shadow-white hover:bg-blue-300 hover:text-black"
           >
-            Dashboard
+            Dashboar
           </Link>
         </li>
         <li>
